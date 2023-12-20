@@ -322,18 +322,24 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
     //Facebook delegate methods
     public func sharer(_ sharer: Sharing, didCompleteWithResults results: [String : Any]) {
         print("Share: Success")
-        result("success")
+        if let result {
+            result("success")
+        }
         
     }
     
     public func sharer(_ sharer: Sharing, didFailWithError error: Error) {
         print("Share: Fail")
-        result("error")
+        if let result {
+            result("error")
+        }
         
     }
     
     public func sharerDidCancel(_ sharer: Sharing) {
         print("Share: Cancel")
-        result("cancel")
+        if let result {
+            result("cancel")
+        }
     }
 }
