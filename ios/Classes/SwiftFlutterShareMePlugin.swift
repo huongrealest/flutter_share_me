@@ -194,19 +194,6 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
         
         let shareDialog = ShareDialog(viewController: viewController, content: shareContent, delegate: self)
         shareDialog.mode = .automatic
-        shareDialog.completion = { result in
-            switch result {
-            case .success:
-                result("success")
-                break
-            case .cancelled:
-                result("cancel")
-                break
-            case .failed:
-                result("error")
-                break
-            }
-        }
         do {
             try shareDialog.show()
         } catch {
@@ -335,15 +322,18 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
     //Facebook delegate methods
     public func sharer(_ sharer: Sharing, didCompleteWithResults results: [String : Any]) {
         print("Share: Success")
+        result("success")
         
     }
     
     public func sharer(_ sharer: Sharing, didFailWithError error: Error) {
         print("Share: Fail")
+        result("error")
         
     }
     
     public func sharerDidCancel(_ sharer: Sharing) {
         print("Share: Cancel")
+        result("cancel")
     }
 }
