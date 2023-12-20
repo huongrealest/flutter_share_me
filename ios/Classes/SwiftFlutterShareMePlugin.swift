@@ -195,25 +195,23 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
         let shareDialog = ShareDialog(viewController: viewController, content: shareContent, delegate: self)
         shareDialog.mode = .automatic
         shareDialog.completion = { result in
-    // Handle share results
-    switch result {
-    case .success(let response):
-        result("success")
-        break
-    case .failed(let error):
-        result("fail")
-        break
-    case .cancelled:
-        result("cancel")
-        break
-    }
-}
+            switch result {
+            case .success:
+                result("success")
+                break
+            case .cancelled:
+                result("cancel")
+                break
+            case .failed:
+                result("error")
+                break
+            }
+        }
         do {
-    try shareDialog.show()
-} catch {
-    result("cancel")
-}
-        
+            try shareDialog.show()
+        } catch {
+            result("error")
+        }
     }
     
     // share twitter params
