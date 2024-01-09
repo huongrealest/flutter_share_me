@@ -185,6 +185,11 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
     // params
     // @ map conting meesage and url
     
+    func isFacebookAppInstalled() -> Bool {
+        let facebookAppURL = URL(string: "fb://")!
+        return UIApplication.shared.canOpenURL(facebookAppURL)
+    }
+
     func sharefacebook(message:Dictionary<String,Any>, result: @escaping FlutterResult)  {
         let viewController = UIApplication.shared.delegate?.window??.rootViewController
         //let shareDialog = ShareDialog()
@@ -193,7 +198,11 @@ public class SwiftFlutterShareMePlugin: NSObject, FlutterPlugin, SharingDelegate
         shareContent.quote = message["msg"] as? String
         
         let shareDialog = ShareDialog(viewController: viewController, content: shareContent, delegate: self)
-        shareDialog.mode = .automatic
+        if (isFacebookAppInstalled()) {
+            shareDialog.mode = .native
+        }else {
+            shareDialog.mode = .automatic
+        }
         do {
             try shareDialog.show()
         } catch {
